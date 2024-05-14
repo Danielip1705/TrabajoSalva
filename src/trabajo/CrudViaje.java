@@ -14,7 +14,6 @@ public class CrudViaje {
 	 * Posibles funciones (Creo) añadirViaje(Viaje vij) listado() delete(Viaje vij)
 	 * guardarEnArchivo()
 	 */
-
 	public static void mostrarViajes() {
 
 		for (Viaje vij : listaViajes) {

@@ -21,7 +21,7 @@ public class CrudViaje {
 		}
 	}
 	
-	public static void nuevoViaje() {
-		
+	public static void anniadirViaje(Viaje viaje) {
+		listaViajes.add(viaje);
 	}
 }

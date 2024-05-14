@@ -20,4 +20,8 @@ public class CrudViaje {
 			System.out.println(vij);
 		}
 	}
+	
+	public static void nuevoViaje() {
+		
+	}
 }

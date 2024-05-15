@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class CrudViaje {
 
 	static ArrayList<Viaje> listaViajes = new ArrayList<Viaje>();
+
 	/*
 	 * Posibles funciones (Creo) añadirViaje(Viaje vij) listado() delete(Viaje vij)
 	 * guardarEnArchivo()
@@ -19,5 +20,16 @@ public class CrudViaje {
 		for (Viaje vij : listaViajes) {
 			System.out.println(vij);
 		}
+	}
+
+	public static boolean anniadirViaje(Viaje viaje) {
+		boolean hecho = false;
+		
+		if (!listaViajes.contains(viaje)) {
+			listaViajes.add(viaje);
+			hecho = true;
+		}
+		
+		return hecho;
 	}
 }

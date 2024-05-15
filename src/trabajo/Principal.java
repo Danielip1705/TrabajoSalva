@@ -47,7 +47,7 @@ public class Principal {
 		try {
 			
 			//se asigna el texto a leer
-			br=new BufferedReader(new FileReader("src\\trabajo\\datosTurismo"));
+			br=new BufferedReader(new FileReader("src\\trabajo\\datosTurismo.txt"));
 			
 			
 			//leemos la primera linea para comprobar

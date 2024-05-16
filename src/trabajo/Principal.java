@@ -1,7 +1,9 @@
 package trabajo;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -18,6 +20,8 @@ public class Principal {
 		//var para lectura del archivo/escritura del archivo
 		BufferedReader br = null;
 		
+		//
+		BufferedWriter bw=null;
 		
 		
 		String[] arrayPorPuntos = null;
@@ -41,7 +45,10 @@ public class Principal {
 		int mes=0;
 		int anyo=0;
 		
+		boolean comprobacion=false;
+		
 		int opcion=0;
+		
 		
 		//try/catch para el texto
 		try {
@@ -112,6 +119,13 @@ public class Principal {
 			e.printStackTrace();
 		}//end try catch FileNotFoundException e
 		
+		
+		
+		
+		
+		
+		
+		
 		//do while de opcion
 		do {
 			//llamamos la funcion
@@ -159,13 +173,20 @@ public class Principal {
 
                 // Creamos un nuevo viaje
                 v = new Viaje(lugar, fecha, precio);
-
+                
+                
+                
                 // Añadimos el viaje a la lista
-                CrudViaje.listaViajes.add(v);
+                if(CrudViaje.anniadirViaje(v)) {
 
-                System.out.println("Viaje añadido con éxito.");
-				
-				System.out.println();
+                    
+                    System.out.println("Viaje anadido con éxito.");
+    				
+                }
+                else {
+
+    				System.out.println("El viaje no se ha podido anadir");
+                }
 				
 				break;
 			}
@@ -173,18 +194,130 @@ public class Principal {
 			//3 Modificar el precio o la fecha de un viaje existente, seleccionando el viaje por su lugar.
 			case 3:{
 
+                System.out.println("Introduce el lugar del viaje que deseas modificar: ");
+                lugar = sc.next();
+                
+                //restablecemos el valor a null de la variable de los viajes
+                v = null;
+                
+                //comprobamos si el viaje existe
+                
+                
+                //recorremos mediante foreach la lista de viajes hasta encontrar la que tiene el lugar (el codigo puede ser mejorado, no es la manera mas optima)
+                for (Viaje viaje : CrudViaje.listaViajes) {
+                    if (viaje.getLugar().equalsIgnoreCase(lugar)) {
+                        v = viaje;
+                        break;
+                    }
+                }
+                
+                
+
+				
+
+
+                // Creamos un nuevo viaje
+                v = new Viaje(lugar, fecha, precio);
+                
+                for(Viaje viaje: CrudViaje.listaViajes) {
+                	
+                	if (viaje.equals(v)) {
+                		
+                		System.out.println("Que dato quieres modificar?");
+                		System.out.println("1: Fecha. 2: Precio");
+        				//introducimos los valores de cada variable
+                		switch(opcion) {
+                		case 1:{
+
+            				System.out.println("Introduce un dia: ");
+            				dia=sc.nextInt();
+            				
+            				System.out.println("Introduce un mes: ");
+            				mes=sc.nextInt();
+            				
+            				System.out.println("Introduce un anyo: ");
+            				anyo=sc.nextInt();
+            				
+
+            				//anadimos el valor de dia mes anyo
+            				fecha.put("dia", dia);
+            				fecha.put("mes", mes);
+            				fecha.put("anio", anyo);
+
+                    		
+                            viaje.setFecha(fecha);
+            				
+                            //funcion de modificar viaje
+                            
+                			break;
+                		}
+                		case 2:{
+
+            				
+            				System.out.println("Introduce un precio: ");
+            				precio=sc.nextDouble();
+                            viaje.setPrecio(precio);
+                			
+                            //funcion de modificar viaje
+                            
+                			break;
+                		}
+                		
+                		}
+                        
+
+                    }
+                }
+                
+                	
+				
 				break;
 			}
 			
 			//4 Eliminar un viaje existente, seleccionándolo por su lugar.
 			case 4:{
+				
 
+                System.out.println("Introduce el lugar del viaje que deseas modificar: ");
+                lugar = sc.next();
+                
+                v=new Viaje(lugar, fecha, precio);
+                
+				for (Viaje viaje: CrudViaje.listaViajes) {
+					//si el viaje es igual que v
+					if(viaje.equals(v)) {
+						//funcion de eliminar mediante el lugar escrito
+					}
+					
+				}
+				
+				
 				break;
 			}
 			
 			//5 Guardar los cambios realizados en un archivo de texto.
 			case 5:{
-
+				
+				try {
+                    bw = new BufferedWriter(new FileWriter("src\\trabajo\\datosTurismo"));
+                    for (Viaje viaje : CrudViaje.listaViajes) {
+                        fecha = viaje.getFecha();
+                        bw.write(viaje.getLugar() + "::" +
+                                 fecha.get("dia") + "/" + fecha.get("mes") + "/" + fecha.get("anio") + "::" +
+                                 viaje.getPrecio());
+                        bw.newLine();
+                    }
+                    System.out.println("Cambios guardados con éxito.");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (bw != null) bw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+				
 				break;
 			}
 			//6 Salir del programa.

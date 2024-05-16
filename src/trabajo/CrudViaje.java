@@ -25,7 +25,7 @@ public class CrudViaje {
 	public static boolean anniadirViaje(Viaje viaje) {
 		boolean hecho = false;
 		
-		if (!listaViajes.contains(viaje)) {
+		if (viaje != null && !listaViajes.contains(viaje)) {
 			listaViajes.add(viaje);
 			hecho = true;
 		}

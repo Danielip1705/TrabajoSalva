@@ -89,7 +89,7 @@ public class Viaje {
 
 		Viaje temp = (Viaje) obj;
 
-		if (lugar.equals(temp.lugar) && fecha.equals(temp.fecha)) {
+		if (lugar.equals(temp.lugar)) {
 			res = true;
 		}
 

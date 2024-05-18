@@ -46,12 +46,7 @@ public class Principal {
 			br = new BufferedReader(new FileReader("src\\trabajo\\datosTurismo.txt"));
 
 			// leemos la primera linea para comprobar
-			try {
-				linea = br.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			linea = br.readLine();
 
 			// while para la lectura de la linea hasta que sea null
 			while (linea != null) {
@@ -78,25 +73,24 @@ public class Principal {
 				// ponemos el dato del viaje en el arraylist hasta llegar al final del texto
 				CrudViaje.listaViajes.add(v);
 
-				// comprobado que son las fechas en la posicion 1
-//				System.out.println(arrayPorPuntos[1]);
-
-				// try catch para comprobar el readline
-				try {
-					// leer la siguiente linea
-					linea = br.readLine();
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				// leer la siguiente linea
+				linea = br.readLine();
 
 			} // end while linea!=null
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} // end try catch FileNotFoundException e
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null) {
+					br.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		// do while de opcion
 		do {
@@ -105,6 +99,7 @@ public class Principal {
 
 			// elegir opcion
 			opcion = sc.nextInt();
+			sc.nextLine(); // Consumir el salto de línea después del entero
 
 			// switch case para la opcion del programa
 			switch (opcion) {
@@ -113,41 +108,36 @@ public class Principal {
 			// fecha y el precio de cada uno.
 			case 1: {
 				CrudViaje.mostrarViajes();
-
 				break;
 			}
 
 			// 2 Añadir un nuevo viaje especificando el lugar, la fecha (en formato
 			// DD/MM/AAAA) y el precio.
 			case 2: {
-
 				// introducimos los valores de cada variable
-
 				System.out.println("Introduce un lugar: ");
-				lugar = sc.next();
+				lugar = sc.nextLine();
 
-				System.out.println("");
+				System.out.println("Introduce una fecha (DD/MM/AAAA): ");
 				fecha = sc.nextLine();
 
 				System.out.println("Introduce un precio: ");
 				precio = sc.nextDouble();
 
-				// anadimos el valor de dia mes anyo
-				fecha = dia + "/" + mes + "/" + anyo;
-
 				if (Viaje.validarFecha(fecha)) {
 					// Creamos un nuevo viaje
 					v = new Viaje(lugar, fecha, precio);
-				}
 
-				if (CrudViaje.anniadirViaje(v)) {
-					System.out.println("Viaje añadido con éxiito");
+					if (CrudViaje.anniadirViaje(v)) {
+						System.out.println("Viaje añadido con éxito");
+					} else {
+						System.out.println("No se ha podido añadir el viaje");
+					}
 				} else {
-					System.out.println("No se ha podido añadir el viaje");
+					System.out.println("Fecha no válida");
 				}
 
 				System.out.println();
-
 				break;
 			}
 

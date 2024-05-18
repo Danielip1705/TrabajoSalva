@@ -22,6 +22,7 @@ public class Principal {
 
 		String[] arrayFecha = null;
 
+		String fechaPrecioEleg = "";
 		//
 		String linea = "";
 
@@ -144,7 +145,42 @@ public class Principal {
 			// 3 Modificar el precio o la fecha de un viaje existente, seleccionando el
 			// viaje por su lugar.
 			case 3: {
+				
+				//Indicamos el lugar
+				System.out.println("Inserte el lugar a modificar");
 
+				lugar = sc.nextLine();
+
+				System.out.println("¿Que quieres modificar?");
+
+				//Indicamos si quiere elegir la fecha o el precio
+				System.out.println("[Fecha]\t[Precio]");
+
+				fechaPrecioEleg = sc.nextLine();
+
+				//Si elige la fecha, solo se modifica la fecha con la funcion ya creada
+				if (fechaPrecioEleg.equalsIgnoreCase("fecha")) {
+					System.out.println("Escriba la fecha a modificar");
+
+					fecha = sc.nextLine();
+
+					precio = 0;
+
+					CrudViaje.modificarViajePorLugar(lugar, null, fecha);
+
+					// y si a elegido el precio, se modifica dicho elemento
+				} else if (fechaPrecioEleg.equalsIgnoreCase("precio")) {
+					System.out.println("Escriba el precio a modificar");
+
+					fecha = null;
+
+					precio = sc.nextDouble();
+					sc.nextLine();
+
+					CrudViaje.modificarViajePorLugar(lugar, precio, null);
+				} else {
+					System.out.println("Opcion no valida");
+				}
 				break;
 			}
 

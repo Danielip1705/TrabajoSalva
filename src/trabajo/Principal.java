@@ -226,7 +226,7 @@ public class Principal {
 						
 						viaje.datosParaGuardar();
 						
-						
+						//se escribe usando el metodo creado en Viaje
 	                    bw.write(viaje.datosParaGuardar());
 	                    bw.newLine();
 	                    
@@ -272,7 +272,7 @@ public class Principal {
 
 		} while (opcion != 6);// end dowhile opcion
 
-		System.out.println();
+		System.out.println("Gracias por su visita.");
 
 		// cierre de scanner
 		sc.close();

@@ -229,7 +229,7 @@ public class Principal {
 						
 	                    bw.write(viaje.datosParaGuardar());
 	                    bw.newLine();
-	                     
+	                    
 	                }
 					 
 				} catch (IOException e) {

@@ -70,6 +70,26 @@ public class Viaje {
 		}
 	}
 
+
+
+	/**
+	 * Funcion que devuelve los datos del viaje segun como esta escrito en el formato de texto
+	 * @return 
+	 */
+	public String datosParaGuardar() {
+		String str="";
+
+		String[] fechaArray = fecha.split("/");
+		
+		int precioConvertido=(int)precio;
+		
+		str+=lugar+"::"+fechaArray[0] + "/" + fechaArray[1] + "/" + fechaArray[2] +"::"+precioConvertido;
+		
+		return str;
+	}
+	
+
+	
 	@Override
 	public String toString() {
 

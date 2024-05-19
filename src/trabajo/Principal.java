@@ -1,14 +1,17 @@
 package trabajo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Principal {
-	// objeto scanner
+	
+	// objeto scanner (hecho static para poder resumir codigo si es necesario)
 	public static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
@@ -18,6 +21,9 @@ public class Principal {
 
 		// var para lectura del archivo/escritura del archivo
 		BufferedReader br = null;
+		
+		//var para escribir en el archivo que quieras;
+		BufferedWriter bw=null;
 
 		String[] arrayPorPuntos = null;
 
@@ -35,7 +41,7 @@ public class Principal {
 		// mapa para la fecha
 		String fecha = "";
 		
-		
+		int tamanoLista=0;
 
 		int opcion = 0;
 
@@ -43,7 +49,7 @@ public class Principal {
 		try {
 
 			// se asigna el texto a leer
-			br = new BufferedReader(new FileReader("src\\trabajo\\datosTurismo.txt"));
+			br = new BufferedReader(new FileReader("src/trabajo/datosTurismo"));
 
 			// leemos la primera linea para comprobar
 			linea = br.readLine();
@@ -76,7 +82,10 @@ public class Principal {
 			} // end while linea!=null
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			//
+			System.out.println("El archivo indicado no existe.");
+			System.out.println(e);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -128,7 +137,8 @@ public class Principal {
 					if (Viaje.validarFecha(fecha)) {
 						// Creamos un nuevo viaje
 						v = new Viaje(lugar, fecha, precio);
-
+						
+						//comprobamos si el viaje se ha podido anyadir
 						if (CrudViaje.anniadirViaje(v)) {
 							System.out.println("Viaje añadido con éxito");
 						} else {
@@ -190,13 +200,56 @@ public class Principal {
 
 			// 4 Eliminar un viaje existente, seleccionándolo por su lugar.
 			case 4: {
-
+				
+				//Se indica el lugar para poder eliminar el viaje
+				System.out.println("Inserte el lugar a modificar");
+				
+				lugar = sc.nextLine();
+				
+				//Se elimina el viaje que tiene el lugar indicado
+				CrudViaje.eliminarViaje(lugar);
+				
+				
 				break;
 			}
 
 			// 5 Guardar los cambios realizados en un archivo de texto.
 			case 5: {
-
+				
+				//try catch para comprobar que el archivo existe
+				 try {
+					//le asignamos al BuffereedWriter la lectura para poder escribir
+					bw = new BufferedWriter(new FileWriter("src/trabajo/datosTurismo"));
+					
+					//por cada dato dentro de la lista
+					for (Viaje viaje : CrudViaje.listaViajes) {
+						
+						viaje.datosParaGuardar();
+						
+						//se escribe usando el metodo creado en Viaje
+	                    bw.write(viaje.datosParaGuardar());
+	                    bw.newLine();
+	                    
+	                }
+					 
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					
+					try {
+						bw.flush();
+						bw.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				
+				
+				tamanoLista=0;
+				
 				break;
 			}
 			// 6 Salir del programa.
@@ -219,7 +272,7 @@ public class Principal {
 
 		} while (opcion != 6);// end dowhile opcion
 
-		System.out.println();
+		System.out.println("Gracias por su visita.");
 
 		// cierre de scanner
 		sc.close();
@@ -227,8 +280,8 @@ public class Principal {
 	}// end main
 
 	/**
-	 * metodo para el menu que imprime un menu para el programa no recibe ni
-	 * devuelve nada
+	 * metodo para el menu que imprime un menu para el programa 
+	 * (no recibe ni devuelve nada)
 	 */
 	public static void menu() {
 		// imprime el menu

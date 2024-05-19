@@ -35,13 +35,12 @@ public class CrudViaje {
 
 	/**
 	 * Funcion para modificar el precio y fecha de un viaje por su lugar
-	 * @param lugar Cadena que contiene el lugar del viaje a modificar
+	 * 
+	 * @param lugar       Cadena que contiene el lugar del viaje a modificar
 	 * @param nuevoPrecio Precio nuevo a modificar
-	 * @param nuevaFecha Fecha nueva a modificar
+	 * @param nuevaFecha  Fecha nueva a modificar
 	 * @return True o false dependiendo de que exista el viaje
 	 */
-	
-	
 	public static boolean modificarViajePorLugar(String lugar, Double nuevoPrecio, String nuevaFecha) {
 		boolean modificado = false;
 		for (Viaje v : listaViajes) {
@@ -52,10 +51,24 @@ public class CrudViaje {
 				if (nuevaFecha != null && Viaje.validarFecha(nuevaFecha)) {
 					v.setFecha(nuevaFecha);
 				}
-				modificado=true;
+				modificado = true;
 			}
 		}
 		return modificado;
 	}
 
-}
+	public static boolean eliminarViaje(String lugar) {
+		boolean eliminado = false;
+
+		for (Viaje v : listaViajes) {
+			if (v.getLugar().equalsIgnoreCase(lugar)) {
+				listaViajes.remove(v);
+				eliminado = true;
+			}
+		}
+
+			return eliminado;
+		}
+
+	}
+

@@ -30,7 +30,7 @@ public class Viaje {
 			int diaInt = Integer.valueOf(fecha.substring(0, 2));
 			int mesInt = Integer.valueOf(fecha.substring(3, 5));
 
-			if ((diaInt >= 1 && diaInt <= 31) || (mesInt >= 1 && mesInt <= 12)) {
+			if ((diaInt >= 1 && diaInt <= 31) && (mesInt >= 1 && mesInt <= 12)) {
 				res = true;
 			}
 		} catch (NumberFormatException e) {
@@ -72,13 +72,23 @@ public class Viaje {
 
 	@Override
 	public String toString() {
+
 		String res = "";
 		String[] temp = fecha.split("/");
-
 		
-		res += "Lugar: " + lugar + "\n";
-		res += "Fecha: " + temp[0] + "/" + temp[1] + "/" + temp[2] + "\n";
-		res += "Precio: " + precio + "\n";
+		try {
+			
+
+			res += "Lugar: " + lugar + "\n";
+			res += "Fecha: " + temp[0] + "/" + temp[1] + "/" + temp[2] + "\n";
+			
+			
+		} catch (ArrayIndexOutOfBoundsException e) {
+			res += "Fecha no válida." + "\n";
+		} finally {
+			res += "Precio: " + precio + "\n";
+		}
+		
 		
 		return res;
 	}
@@ -89,7 +99,7 @@ public class Viaje {
 
 		Viaje temp = (Viaje) obj;
 
-		if (lugar.equals(temp.lugar)) {
+		if (lugar.equals(temp.lugar) && fecha.equals(temp.fecha)) {
 			res = true;
 		}
 

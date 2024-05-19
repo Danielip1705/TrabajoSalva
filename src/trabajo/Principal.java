@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Principal {
@@ -33,10 +34,8 @@ public class Principal {
 
 		// mapa para la fecha
 		String fecha = "";
-
-		int dia = 0;
-		int mes = 0;
-		int anyo = 0;
+		
+		
 
 		int opcion = 0;
 
@@ -61,12 +60,9 @@ public class Principal {
 				// pasamos el valor a double
 				precio = Double.parseDouble(arrayPorPuntos[2]);
 
-				dia = Integer.parseInt(arrayFecha[0]);
-				mes = Integer.parseInt(arrayFecha[1]);
-				anyo = Integer.parseInt(arrayFecha[2]);
 
 				// anadimos el valor de dia mes anyo
-				fecha = dia + "/" + mes + "/" + anyo;
+				fecha = arrayFecha[0] + "/" + arrayFecha[1] + "/" + arrayFecha[2];
 
 				// se anade al viaje
 				v = new Viaje(arrayPorPuntos[0], fecha, precio);
@@ -115,29 +111,37 @@ public class Principal {
 			// 2 Añadir un nuevo viaje especificando el lugar, la fecha (en formato
 			// DD/MM/AAAA) y el precio.
 			case 2: {
-				// introducimos los valores de cada variable
-				System.out.println("Introduce un lugar: ");
-				lugar = sc.nextLine();
+				
+				do {
+					// introducimos los valores de cada variable
+					System.out.println("Introduce un lugar: ");
+					lugar = sc.nextLine();
 
-				System.out.println("Introduce una fecha (DD/MM/AAAA): ");
-				fecha = sc.nextLine();
+					System.out.println("Introduce una fecha (DD/MM/AAAA): ");
+					fecha = sc.nextLine();
 
-				System.out.println("Introduce un precio: ");
-				precio = sc.nextDouble();
+					System.out.println("Introduce un precio: ");
+					precio = sc.nextDouble();
 
-				if (Viaje.validarFecha(fecha)) {
-					// Creamos un nuevo viaje
-					v = new Viaje(lugar, fecha, precio);
+					sc.nextLine();
+					
+					if (Viaje.validarFecha(fecha)) {
+						// Creamos un nuevo viaje
+						v = new Viaje(lugar, fecha, precio);
 
-					if (CrudViaje.anniadirViaje(v)) {
-						System.out.println("Viaje añadido con éxito");
+						if (CrudViaje.anniadirViaje(v)) {
+							System.out.println("Viaje añadido con éxito");
+						} else {
+							System.out.println("No se ha podido añadir el viaje");
+						}
 					} else {
-						System.out.println("No se ha podido añadir el viaje");
+						System.out.println("Fecha no válida");
 					}
-				} else {
-					System.out.println("Fecha no válida");
-				}
-
+					
+				} while(Viaje.validarFecha(fecha) != true);
+		
+				
+				
 				System.out.println();
 				break;
 			}

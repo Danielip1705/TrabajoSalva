@@ -57,6 +57,12 @@ public class CrudViaje {
 		return modificado;
 	}
 
+	/**
+	 * Funcion para eliminar un viaje por su lugar
+	 * 
+	 * @param lugar Cadena que contiene un lugar que se eliminara
+	 * @return Booleano true o false indicando si se ha podido eliminar o no
+	 */
 	public static boolean eliminarViaje(String lugar) {
 		boolean eliminado = false;
 
@@ -67,8 +73,7 @@ public class CrudViaje {
 			}
 		}
 
-			return eliminado;
-		}
-
+		return eliminado;
 	}
 
+}

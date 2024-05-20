@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Principal {
-	
+
 	// objeto scanner (hecho static para poder resumir codigo si es necesario)
 	public static Scanner sc = new Scanner(System.in);
 
@@ -21,9 +21,9 @@ public class Principal {
 
 		// var para lectura del archivo/escritura del archivo
 		BufferedReader br = null;
-		
-		//var para escribir en el archivo que quieras;
-		BufferedWriter bw=null;
+
+		// var para escribir en el archivo que quieras;
+		BufferedWriter bw = null;
 
 		String[] arrayPorPuntos = null;
 
@@ -40,8 +40,8 @@ public class Principal {
 
 		// mapa para la fecha
 		String fecha = "";
-		
-		int tamanoLista=0;
+
+		int tamanoLista = 0;
 
 		int opcion = 0;
 
@@ -49,7 +49,7 @@ public class Principal {
 		try {
 
 			// se asigna el texto a leer
-			br = new BufferedReader(new FileReader("src/trabajo/datosTurismo"));
+			br = new BufferedReader(new FileReader("src/trabajo/datosTurismo.txt"));
 
 			// leemos la primera linea para comprobar
 			linea = br.readLine();
@@ -65,7 +65,6 @@ public class Principal {
 
 				// pasamos el valor a double
 				precio = Double.parseDouble(arrayPorPuntos[2]);
-
 
 				// anadimos el valor de dia mes anyo
 				fecha = arrayFecha[0] + "/" + arrayFecha[1] + "/" + arrayFecha[2];
@@ -85,7 +84,7 @@ public class Principal {
 			//
 			System.out.println("El archivo indicado no existe.");
 			System.out.println(e);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -120,7 +119,7 @@ public class Principal {
 			// 2 Añadir un nuevo viaje especificando el lugar, la fecha (en formato
 			// DD/MM/AAAA) y el precio.
 			case 2: {
-				
+
 				do {
 					// introducimos los valores de cada variable
 					System.out.println("Introduce un lugar: ");
@@ -133,12 +132,12 @@ public class Principal {
 					precio = sc.nextDouble();
 
 					sc.nextLine();
-					
+
 					if (Viaje.validarFecha(fecha)) {
 						// Creamos un nuevo viaje
 						v = new Viaje(lugar, fecha, precio);
-						
-						//comprobamos si el viaje se ha podido anyadir
+
+						// comprobamos si el viaje se ha podido anyadir
 						if (CrudViaje.anniadirViaje(v)) {
 							System.out.println("Viaje añadido con éxito");
 						} else {
@@ -147,11 +146,9 @@ public class Principal {
 					} else {
 						System.out.println("Fecha no válida");
 					}
-					
-				} while(Viaje.validarFecha(fecha) != true);
-		
-				
-				
+
+				} while (Viaje.validarFecha(fecha) != true);
+
 				System.out.println();
 				break;
 			}
@@ -159,20 +156,20 @@ public class Principal {
 			// 3 Modificar el precio o la fecha de un viaje existente, seleccionando el
 			// viaje por su lugar.
 			case 3: {
-				
-				//Indicamos el lugar
+
+				// Indicamos el lugar
 				System.out.println("Inserte el lugar a modificar");
 
 				lugar = sc.nextLine();
 
 				System.out.println("¿Que quieres modificar?");
 
-				//Indicamos si quiere elegir la fecha o el precio
+				// Indicamos si quiere elegir la fecha o el precio
 				System.out.println("[Fecha]\t[Precio]");
 
 				fechaPrecioEleg = sc.nextLine();
 
-				//Si elige la fecha, solo se modifica la fecha con la funcion ya creada
+				// Si elige la fecha, solo se modifica la fecha con la funcion ya creada
 				if (fechaPrecioEleg.equalsIgnoreCase("fecha")) {
 					System.out.println("Escriba la fecha a modificar");
 
@@ -180,7 +177,11 @@ public class Principal {
 
 					precio = 0;
 
-					CrudViaje.modificarViajePorLugar(lugar, null, fecha);
+					if (CrudViaje.modificarViajePorLugar(lugar, null, fecha)) {
+						System.out.println("Modificado con exito");
+					} else {
+						System.out.println("No se a podido modificar");
+					}
 
 					// y si a elegido el precio, se modifica dicho elemento
 				} else if (fechaPrecioEleg.equalsIgnoreCase("precio")) {
@@ -191,7 +192,11 @@ public class Principal {
 					precio = sc.nextDouble();
 					sc.nextLine();
 
-					CrudViaje.modificarViajePorLugar(lugar, precio, null);
+					if (CrudViaje.modificarViajePorLugar(lugar, precio, null)) {
+						System.out.println("Modificado con exito");
+					} else {
+						System.out.println("No se a podido modificar");
+					}
 				} else {
 					System.out.println("Opcion no valida");
 				}
@@ -200,43 +205,46 @@ public class Principal {
 
 			// 4 Eliminar un viaje existente, seleccionándolo por su lugar.
 			case 4: {
-				
-				//Se indica el lugar para poder eliminar el viaje
+
+				// Se indica el lugar para poder eliminar el viaje
 				System.out.println("Inserte el lugar a modificar");
-				
+
 				lugar = sc.nextLine();
-				
-				//Se elimina el viaje que tiene el lugar indicado
-				CrudViaje.eliminarViaje(lugar);
-				
-				
+
+				// Se elimina el viaje que tiene el lugar indicado
+				if (CrudViaje.eliminarViaje(lugar)) {
+					System.out.println("Eliminado con exito");
+				} else {
+					System.out.println("No se ha podido eliminar");
+				}
+
 				break;
 			}
 
 			// 5 Guardar los cambios realizados en un archivo de texto.
 			case 5: {
-				
-				//try catch para comprobar que el archivo existe
-				 try {
-					//le asignamos al BuffereedWriter la lectura para poder escribir
-					bw = new BufferedWriter(new FileWriter("src/trabajo/datosTurismo"));
-					
-					//por cada dato dentro de la lista
+
+				// try catch para comprobar que el archivo existe
+				try {
+					// le asignamos al BuffereedWriter la lectura para poder escribir
+					bw = new BufferedWriter(new FileWriter("src/trabajo/datosTurismo.txt"));
+
+					// por cada dato dentro de la lista
 					for (Viaje viaje : CrudViaje.listaViajes) {
-						
+
 						viaje.datosParaGuardar();
-						
-						//se escribe usando el metodo creado en Viaje
-	                    bw.write(viaje.datosParaGuardar());
-	                    bw.newLine();
-	                    
-	                }
-					 
+
+						// se escribe usando el metodo creado en Viaje
+						bw.write(viaje.datosParaGuardar());
+						bw.newLine();
+
+					}
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}finally {
-					
+				} finally {
+
 					try {
 						bw.flush();
 						bw.close();
@@ -244,12 +252,11 @@ public class Principal {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
+
 				}
-				
-				
-				tamanoLista=0;
-				
+
+				tamanoLista = 0;
+
 				break;
 			}
 			// 6 Salir del programa.
@@ -280,8 +287,8 @@ public class Principal {
 	}// end main
 
 	/**
-	 * metodo para el menu que imprime un menu para el programa 
-	 * (no recibe ni devuelve nada)
+	 * metodo para el menu que imprime un menu para el programa (no recibe ni
+	 * devuelve nada)
 	 */
 	public static void menu() {
 		// imprime el menu
